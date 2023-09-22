@@ -15,12 +15,22 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello, World!'
 
-
-
-
 """
-Directory -> C:\Kevin\FAU\Fall 2021\Python\Homework\HW6
-C:\> set FLASK_APP=p3_Tudor_Kevin
-C:\> set FLASK_ENV=development
-C:\> flask run
+*In Powershell:*
+
+Navigate to Directory
+- Set flask app:  $env:FLASK_APP = "Flask\app.py"
+- Check:          echo $env:FLASK_APP
+- Run:            python -m flask run
+
+Running on http://127.0.0.1:5000
+
+*In terminal:*
+
+Navigate to directory
+- C:\> set FLASK_APP=app
+- C:\> set FLASK_ENV=development
+- C:\> flask run
+
+Running on http://127.0.0.1:5000
 """
