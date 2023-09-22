@@ -1,0 +1,169 @@
+1. # -*- coding: utf-8 -*-
+2. """
+3. Spyder Editor
+4. 
+5. Kevin Tudor
+6. 
+7. HW 2.1 Problem 1
+8. 
+9. File Parsing
+10. 
+11. """
+12. #Problem 1a: n reads the file indicated by the first parameter and writes its 
+13. #lines prefixed by the line number to the file represented by the second parameter
+14. def line_number(infile, ofile):
+15.     
+16.     #open new output file
+17.     print("Opening new output file:", ofile)
+18.     output_file = open(ofile, "w")
+19.     
+20.     #open input file
+21.     print("Reading file:", infile)
+22.     file_read = open(infile, "r")
+23.     
+24.     #read line-by-line
+25.     x = 0
+26.     for line in file_read:
+27.         
+28.         try:
+29.             print(file_read.tell(), "")   #return cursor position
+30.         except OSError:
+31.             #raise OSError("OSError occured when using .tell()")
+32.             print("OSError occured when using .tell()")
+33.         except:
+34.             raise Exception("Error occured when using .tell()")
+35.             #print("Unknown error occured when using .tell()")
+36.             
+37.         x += 1
+38.         x_str = str(x)
+39.         new_str = x_str + ". " + line
+40.                        
+41.         #write to output file
+42.         output_file.write(new_str) 
+43.         
+44.     output_file.close()
+45.     file_read.close()
+46.         
+47. def parse_functions(infile):
+48. 
+49.     function = ""
+50.     new_fun = ""
+51.     function_list = []
+52.     fun_list = []
+53.     fun = []
+54.     
+55.     file_read = open(infile, "r")
+56.     
+57.     x = 0
+58.     l = 0
+59.     split = False
+60.     
+61.     for line in file_read:
+62.         x += 1
+63.         fun_name = "" #sum, mul, print_pretty
+64.         f_name = "" #def sum, def mul, def print_pretty
+65.         
+66.         #catch function name
+67.         if(line[0] == "d"):
+68.             for char in line:
+69.                 if (char != "("):
+70.                     f_name += char 
+71.                     l += 1
+72.                 else:
+73.                     break
+74.             fun_name = (f_name[4:l]) 
+75.         
+76.         
+77.         if (line[0] == "d" or line[0] == "\t"):
+78.             function += line
+79.             
+80.         if (line[1:7] == "return"):
+81.             find = 0
+82.             com_num = 0
+83.             
+84.             for char in function:
+85.                 find += 1
+86.                 if (char == "#"):
+87.                     split = True
+88.                     com_num = find
+89.                 
+90.             find_new = 0
+91.             new_line = []
+92.             for line in function:
+93.                 for char in line:
+94.                     find_new += 1
+95.                     if (char == "\n"):
+96.                         new_line.append(find_new)
+97.      
+98.             if (split == True):
+99.                 new_fun += function[0:com_num - 2]
+100.                 new_fun += function[new_line[0]:len(function)]
+101.                 split = False
+102.                 
+103.                     
+104.             function_list.append(new_fun)
+105.             new_fun = ""
+106.             function = ""
+107.             
+108.             
+109.         fun = (fun_name, x, function) 
+110.         if (fun[0] != "" and fun[2] != ""):
+111.             fun_list += fun
+112.             
+113.     leng = len(function_list)
+114.     pos = 2
+115.     for z in range(0,leng):
+116.         fun_list[pos] = function_list[z]
+117.         pos += 3
+118.         
+119.     new_list = []     
+120.     for a in range(0, len(fun_list),3):
+121.         new_list.append(fun_list[a])
+122.     new_list.sort()
+123.     
+124.     sort_tuple = ()
+125.     for b in range(0, len(new_list)):
+126.         for a in range(0, len(fun_list),3):
+127.             if (fun_list[a] == new_list[b]):
+128.                 sort_tuple += (fun_list[a] , fun_list[a + 1], fun_list[a + 2])
+129.     
+130.     final_tuple = ()
+131.     for a in range(0,len(sort_tuple),3):
+132.         final_tuple += tuple(sort_tuple[a:a+3]),
+133.     
+134.     return final_tuple
+135.     file_read.close()
+136. 
+137. 
+138. def main():
+139.     
+140.     open_name = "FileParser/FileParser.py"
+141.     copy_name = "FileParser/Data/Copy.txt"
+142.     line_number(open_name, copy_name)
+143.     
+144.     open_name = "FileParser/Data/File_1.txt"
+145.     print(parse_functions(open_name))
+146.     
+147. 
+148. print("-----------------------------------------------------")
+149.     
+150. if (__name__=="__main__"):
+151.     main()
+152. 
+153. print("-----------------------------------------------------")
+154. 
+155. 
+156. 
+157. """
+158. NOTES:
+159.     
+160.     #Making file object: my_file = open("(filename)", "(mode)")
+161.     #Text file codes: r is read only 
+162.     #[w is write only, a is (append) write at the end of the file, r+ is read and write, w+ is write and read] truncate a file which could erase file when using open function
+163.     #Open file in binary is rb
+164.     
+165. """
+166. 
+167. 
+168. 
+169. 
